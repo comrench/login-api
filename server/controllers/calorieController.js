@@ -62,7 +62,7 @@ const updateCalorie = asyncHandler(async (req, res) => {
   const { id, user, date, name, quantity } = req.body;
 
   // confirm data
-  if (!user || !date || !name || !quantity || typeof quantity !== Number) {
+  if (!user || !date || !name || !quantity || typeof quantity !== 'number') {
     return res.status(400).json({ message: 'All fields are requiredb!' });
   }
 
