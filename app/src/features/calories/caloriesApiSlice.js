@@ -14,7 +14,6 @@ export const caloriesApiSlice = apiSlice.injectEndpoints({
       validateStatus: (response, result) => {
         return response.status === 200 && !result.isError;
       },
-      keepUnusedDataFor: 5,
       transformResponse: (responseData) => {
         const loadedCalories = responseData.map((calorie) => {
           calorie.id = calorie._id;
@@ -36,10 +35,47 @@ export const caloriesApiSlice = apiSlice.injectEndpoints({
         }
       },
     }),
+    addNewCalorie: builder.mutation({
+      query: (initialCalorieData) => ({
+        url: '/calorie',
+        method: 'POST',
+        body: {
+          ...initialCalorieData,
+        },
+      }),
+      invalidatesTags: [{ type: 'Calorie', id: 'LIST' }],
+    }),
+    updateCalorie: builder.mutation({
+      query: (initialCalorieData) => ({
+        url: '/calorie',
+        method: 'PATCH',
+        body: {
+          ...initialCalorieData,
+        },
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Calorie', id: arg.id },
+      ],
+    }),
+    deleteCalorie: builder.mutation({
+      query: ({ id }) => ({
+        url: '/calorie',
+        method: 'DELETE',
+        body: { id },
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Calorie', id: arg.id },
+      ],
+    }),
   }),
 });
 
-export const { useGetCaloriesQuery } = caloriesApiSlice;
+export const {
+  useGetCaloriesQuery,
+  useAddNewCalorieMutation,
+  useUpdateCalorieMutation,
+  useDeleteCalorieMutation,
+} = caloriesApiSlice;
 
 // returns the query result object
 export const selectCaloriesResult =

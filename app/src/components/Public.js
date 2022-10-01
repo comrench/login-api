@@ -23,7 +23,7 @@ const Public = () => {
         <p>Owner: Foo Bar</p>
       </main>
       <footer>
-        <Link to='/login'>Employee Login</Link>
+        <Link to='/login'>Client Login</Link>
       </footer>
     </section>
   );
