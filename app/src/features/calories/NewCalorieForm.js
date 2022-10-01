@@ -10,44 +10,52 @@ const NewCalorieForm = ({ users }) => {
 
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
-  const [userId, setUserId] = useState(users[0].id);
+  const [date, setDate] = useState('');
+  const [name, setName] = useState('');
+  const [quantity, setQuantity] = useState(0);
+  const [userId, setUserId] = useState('');
 
   useEffect(() => {
     if (isSuccess) {
-      setTitle('');
-      setText('');
+      setDate('');
+      setName('');
+      setQuantity('');
       setUserId('');
       navigate('/dash/calories');
     }
   }, [isSuccess, navigate]);
 
-  const onTitleChanged = (e) => setTitle(e.target.value);
-  const onTextChanged = (e) => setText(e.target.value);
+  const onDateChanged = (e) => setDate(e.target.value);
+  const onNameChanged = (e) => setName(e.target.value);
+  const onQuantityChanged = (e) => setQuantity(e.target.value);
   const onUserIdChanged = (e) => setUserId(e.target.value);
 
-  const canSave = [title, text, userId].every(Boolean) && !isLoading;
+  const canSave = [date, name, quantity, userId].every(Boolean) && !isLoading;
 
   const onSaveCalorieClicked = async (e) => {
     e.preventDefault();
     if (canSave) {
-      await addNewCalorie({ user: userId, title, text });
+      await addNewCalorie({
+        user: userId,
+        date,
+        name,
+        quantity: parseFloat(quantity),
+      });
     }
   };
 
   const options = users.map((user) => {
     return (
       <option key={user.id} value={user.id}>
-        {' '}
         {user.username}
       </option>
     );
   });
 
   const errClass = isError ? 'errmsg' : 'offscreen';
-  const validTitleClass = !title ? 'form__input--incomplete' : '';
-  const validTextClass = !text ? 'form__input--incomplete' : '';
+  const validDateClass = !date ? 'form__input--incomplete' : '';
+  const validNameClass = !name ? 'form__input--incomplete' : '';
+  const validQuantityClass = !quantity ? 'form__input--incomplete' : '';
 
   const content = (
     <>
@@ -62,38 +70,54 @@ const NewCalorieForm = ({ users }) => {
             </button>
           </div>
         </div>
-        <label className='form__label' htmlFor='title'>
-          Title:
+
+        <label className='form__label' htmlFor='calorie-date'>
+          Date:
         </label>
         <input
-          className={`form__input ${validTitleClass}`}
-          id='title'
-          name='title'
+          className={`form__input ${validDateClass}`}
+          id='calorie-date'
+          name='date'
           type='text'
           autoComplete='off'
-          value={title}
-          onChange={onTitleChanged}
+          value={date}
+          onChange={onDateChanged}
         />
 
-        <label className='form__label' htmlFor='text'>
-          Text:
+        <label className='form__label' htmlFor='calorie-name'>
+          Name:
         </label>
-        <textarea
-          className={`form__input form__input--text ${validTextClass}`}
-          id='text'
-          name='text'
-          value={text}
-          onChange={onTextChanged}
+        <input
+          className={`form__input ${validNameClass}`}
+          id='calorie-name'
+          name='name'
+          type='text'
+          autoComplete='off'
+          value={name}
+          onChange={onNameChanged}
+        />
+
+        <label className='form__label' htmlFor='calorie-quantity'>
+          Quantity:
+        </label>
+        <input
+          className={`form__input ${validQuantityClass}`}
+          id='calorie-quantity'
+          name='quantity'
+          type='number'
+          autoComplete='off'
+          value={quantity}
+          onChange={onQuantityChanged}
         />
 
         <label
           className='form__label form__checkbox-container'
-          htmlFor='username'
+          htmlFor='calorie-username'
         >
           ASSIGNED TO:
         </label>
         <select
-          id='username'
+          id='calorie-username'
           name='username'
           className='form__select'
           value={userId}
