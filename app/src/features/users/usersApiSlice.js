@@ -10,7 +10,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     getUsers: builder.query({
       query: () => '/users',
       validateStatus: (response, result) => {
-        console.log('In validatStatus users');
         return response.status === 200 && !result.isError;
       },
       transformResponse: (responseData) => {
@@ -23,15 +22,10 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       providesTags: (result, error, arg) => {
         if (result?.ids) {
           return [
-            {
-              type: 'User',
-              id: 'List',
-            },
+            { type: 'User', id: 'LIST' },
             ...result.ids.map((id) => ({ type: 'User', id })),
           ];
-        } else {
-          return [{ type: 'User', id: 'LIST' }];
-        }
+        } else return [{ type: 'User', id: 'LIST' }];
       },
     }),
     addNewUser: builder.mutation({
@@ -56,7 +50,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     }),
     deleteUser: builder.mutation({
       query: ({ id }) => ({
-        url: '/users',
+        url: `/users`,
         method: 'DELETE',
         body: { id },
       }),
@@ -78,10 +72,10 @@ export const selectUsersResult = usersApiSlice.endpoints.getUsers.select();
 // creates memoized selector
 const selectUsersData = createSelector(
   selectUsersResult,
-  (usersResult) => usersResult.data // normalized state object with ids and entities
+  (usersResult) => usersResult.data // normalized state object with ids & entities
 );
 
-// getSelectors create these selectors and we rename them with aliases using destructuring
+//getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
   selectAll: selectAllUsers,
   selectById: selectUserById,

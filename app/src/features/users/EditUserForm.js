@@ -9,8 +9,10 @@ const USER_REGEX = /^[A-z]{3,20}$/;
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 
 const EditUserForm = ({ user }) => {
+  console.log(user);
   const [updateUser, { isLoading, isSuccess, isError, error }] =
     useUpdateUserMutation();
+
   const [
     deleteUser,
     { isSuccess: isDelSuccess, isError: isDelError, error: delerror },
@@ -18,11 +20,11 @@ const EditUserForm = ({ user }) => {
 
   const navigate = useNavigate();
 
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(user.username);
   const [validUsername, setValidUsername] = useState(false);
   const [password, setPassword] = useState('');
   const [validPassword, setValidPassword] = useState(false);
-  const [roles, setRoles] = useState(['Client']);
+  const [roles, setRoles] = useState(user.roles);
   const [active, setActive] = useState(user.active);
 
   useEffect(() => {
@@ -34,6 +36,7 @@ const EditUserForm = ({ user }) => {
   }, [password]);
 
   useEffect(() => {
+    console.log(isSuccess);
     if (isSuccess || isDelSuccess) {
       setUsername('');
       setPassword('');
@@ -47,7 +50,7 @@ const EditUserForm = ({ user }) => {
 
   const onRolesChanged = (e) => {
     const values = Array.from(
-      e.target.selectedOptions, //HTML Collection
+      e.target.selectedOptions,
       (option) => option.value
     );
     setRoles(values);
@@ -63,7 +66,7 @@ const EditUserForm = ({ user }) => {
     }
   };
 
-  const onDeleteUserClicked = async (e) => {
+  const onDeleteUserClicked = async () => {
     await deleteUser({ id: user.id });
   };
 
@@ -77,9 +80,11 @@ const EditUserForm = ({ user }) => {
 
   let canSave;
   if (password) {
+    console.log('In password');
     canSave =
       [roles.length, validUsername, validPassword].every(Boolean) && !isLoading;
   } else {
+    console.log(roles.length, validUsername);
     canSave = [roles.length, validUsername].every(Boolean) && !isLoading;
   }
 
@@ -104,8 +109,8 @@ const EditUserForm = ({ user }) => {
             <button
               className='icon-button'
               title='Save'
-              disabled={!canSave}
               onClick={onSaveUserClicked}
+              disabled={!canSave}
             >
               <FontAwesomeIcon icon={faSave} />
             </button>
@@ -118,7 +123,6 @@ const EditUserForm = ({ user }) => {
             </button>
           </div>
         </div>
-
         <label className='form__label' htmlFor='username'>
           Username: <span className='nowrap'>[3-20 letters]</span>
         </label>
@@ -133,7 +137,8 @@ const EditUserForm = ({ user }) => {
         />
 
         <label className='form__label' htmlFor='password'>
-          Password: <span className='nowrap'>[4-12 chars incl. !@#$%]</span>
+          Password: <span className='nowrap'>[empty = no change]</span>
+          <span className='nowrap'>[4-12 chars incl. !@#$%]</span>
         </label>
         <input
           className={`form__input ${validPwdClass}`}
@@ -149,15 +154,15 @@ const EditUserForm = ({ user }) => {
           htmlFor='user-active'
         >
           ACTIVE:
+          <input
+            className='form__checkbox'
+            id='user-active'
+            name='user-active'
+            type='checkbox'
+            checked={active}
+            onChange={onActiveChanged}
+          />
         </label>
-        <input
-          className='form__checkbox'
-          id='user-active'
-          name='user-active'
-          type='checkbox'
-          checked={active}
-          onChange={onActiveChanged}
-        />
 
         <label className='form__label' htmlFor='roles'>
           ASSIGNED ROLES:
@@ -165,7 +170,7 @@ const EditUserForm = ({ user }) => {
         <select
           id='roles'
           name='roles'
-          className={`form__input ${validRolesClass}`}
+          className={`form__select ${validRolesClass}`}
           multiple={true}
           size='3'
           value={roles}
@@ -179,5 +184,4 @@ const EditUserForm = ({ user }) => {
 
   return content;
 };
-
 export default EditUserForm;

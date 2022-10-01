@@ -12,7 +12,9 @@ const User = ({ userId }) => {
 
   if (user) {
     const handleEdit = () => navigate(`/dash/users/${userId}`);
+
     const userRolesString = user.roles.toString().replaceAll(',', ', ');
+
     const cellStatus = user.active ? '' : 'table__cell--inactive';
 
     return (
@@ -26,9 +28,6 @@ const User = ({ userId }) => {
         </td>
       </tr>
     );
-  } else {
-    return null;
-  }
+  } else return null;
 };
-
 export default User;

@@ -42,7 +42,7 @@ const NewUserForm = () => {
 
   const onRolesChanged = (e) => {
     const values = Array.from(
-      e.target.selectedOptions, //HTML Collection
+      e.target.selectedOptions, //HTMLCollection
       (option) => option.value
     );
     setRoles(values);
@@ -59,7 +59,11 @@ const NewUserForm = () => {
   };
 
   const options = Object.values(ROLES).map((role) => {
-    return <option key={role} value={role}></option>;
+    return (
+      <option key={role} value={role}>
+        {role}
+      </option>
+    );
   });
 
   const errClass = isError ? 'errmsg' : 'offscreen';
@@ -82,7 +86,6 @@ const NewUserForm = () => {
             </button>
           </div>
         </div>
-
         <label className='form__label' htmlFor='username'>
           Username: <span className='nowrap'>[3-20 letters]</span>
         </label>
@@ -114,7 +117,7 @@ const NewUserForm = () => {
         <select
           id='roles'
           name='roles'
-          className={`form__input ${validRolesClass}`}
+          className={`form__select ${validRolesClass}`}
           multiple={true}
           size='3'
           value={roles}
@@ -128,5 +131,4 @@ const NewUserForm = () => {
 
   return content;
 };
-
 export default NewUserForm;

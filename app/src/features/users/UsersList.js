@@ -8,7 +8,11 @@ const UsersList = () => {
     isSuccess,
     isError,
     error,
-  } = useGetUsersQuery();
+  } = useGetUsersQuery(undefined, {
+    pollingInterval: 60000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+  });
 
   let content;
 
@@ -20,9 +24,11 @@ const UsersList = () => {
 
   if (isSuccess) {
     const { ids } = users;
+
     const tableContent = ids?.length
       ? ids.map((userId) => <User key={userId} userId={userId} />)
       : null;
+
     content = (
       <table className='table table--users'>
         <thead className='table__thead'>
@@ -45,5 +51,4 @@ const UsersList = () => {
 
   return content;
 };
-
 export default UsersList;

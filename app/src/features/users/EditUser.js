@@ -12,5 +12,4 @@ const EditUser = () => {
 
   return content;
 };
-
 export default EditUser;
