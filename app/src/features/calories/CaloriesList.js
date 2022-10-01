@@ -8,7 +8,7 @@ const CaloriesList = () => {
     isSuccess,
     isError,
     error,
-  } = useGetCaloriesQuery(undefined, {
+  } = useGetCaloriesQuery('caloriesList', {
     pollingInterval: 15000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
