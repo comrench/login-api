@@ -1,7 +1,10 @@
 import { useGetCaloriesQuery } from './caloriesApiSlice';
 import Calorie from './Calorie';
+import useAuth from '../../hooks/useAuth';
 
 const CaloriesList = () => {
+  const { username, isManager, isAdmin } = useAuth();
+
   const {
     data: calories,
     isLoading,
@@ -23,13 +26,23 @@ const CaloriesList = () => {
   }
 
   if (isSuccess) {
-    const { ids } = calories;
+    const { ids, entities } = calories;
     console.log(ids);
-    const tableContent = ids?.length
-      ? ids.map((calorieId) => (
-          <Calorie key={calorieId} calorieId={calorieId} />
-        ))
-      : null;
+
+    let filteredIds;
+    if (isManager || isAdmin) {
+      filteredIds = [...ids];
+    } else {
+      filteredIds = ids.filter(
+        (calorieId) => entities[calorieId].username === username
+      );
+    }
+
+    const tableContent =
+      ids?.length &&
+      filteredIds.map((calorieId) => (
+        <Calorie key={calorieId} calorieId={calorieId} />
+      ));
 
     content = (
       <table className='table table--calories'>

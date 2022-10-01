@@ -12,29 +12,43 @@ import EditCalorie from './features/calories/EditCalorie';
 import NewCalorie from './features/calories/NewCalorie';
 import Prefetch from './features/auth/Prefetch';
 import PersistLogin from './features/auth/PersistLogin';
+import RequireAuth from './features/auth/RequireAuth';
+import { ROLES } from './config/roles';
 
 function App() {
   return (
     <Routes>
       <Route path='/' element={<Layout />}>
+        {/* Public routes */}
         <Route index element={<Public />}></Route>
         <Route path='login' element={<Login />}></Route>
 
+        {/* Protected routes */}
         <Route element={<PersistLogin />}>
-          <Route element={<Prefetch />}>
-            <Route path='dash' element={<DashLayout />}>
-              <Route index element={<Welcome />} />
+          <Route
+            element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}
+          >
+            <Route element={<Prefetch />}>
+              <Route path='dash' element={<DashLayout />}>
+                <Route index element={<Welcome />} />
 
-              <Route path='users'>
-                <Route index element={<UsersList />} />
-                <Route path=':id' element={<EditUser />} />
-                <Route path='new' element={<NewUserForm />} />
-              </Route>
+                <Route
+                  element={
+                    <RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />
+                  }
+                >
+                  <Route path='users'>
+                    <Route index element={<UsersList />} />
+                    <Route path=':id' element={<EditUser />} />
+                    <Route path='new' element={<NewUserForm />} />
+                  </Route>
+                </Route>
 
-              <Route path='calories'>
-                <Route index element={<CaloriesList />} />
-                <Route path=':id' element={<EditCalorie />} />
-                <Route path='new' element={<NewCalorie />} />
+                <Route path='calories'>
+                  <Route index element={<CaloriesList />} />
+                  <Route path=':id' element={<EditCalorie />} />
+                  <Route path='new' element={<NewCalorie />} />
+                </Route>
               </Route>
             </Route>
           </Route>

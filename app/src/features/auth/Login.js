@@ -13,7 +13,7 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
-  const [persist, setPersist] = useState();
+  const [persist, setPersist] = usePersist();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -61,16 +61,17 @@ const Login = () => {
   const content = (
     <section className='public'>
       <header>
-        <h1>Client Login</h1>
+        <h1>Employee Login</h1>
       </header>
       <main className='login'>
         <p ref={errRef} className={errClass} aria-live='assertive'>
           {errMsg}
         </p>
+
         <form className='form' onSubmit={handleSubmit}>
           <label htmlFor='username'>Username:</label>
           <input
-            className={`form__input`}
+            className='form__input'
             type='text'
             id='username'
             ref={userRef}
@@ -82,14 +83,13 @@ const Login = () => {
 
           <label htmlFor='password'>Password:</label>
           <input
-            className={`form__input`}
+            className='form__input'
             type='password'
             id='password'
-            value={password}
             onChange={handlePwdInput}
+            value={password}
             required
           />
-
           <button className='form__submit-button'>Sign In</button>
 
           <label htmlFor='persist' className='form__persist'>
@@ -100,7 +100,7 @@ const Login = () => {
               onChange={handleToggle}
               checked={persist}
             />
-            Trust this device
+            Trust This Device
           </label>
         </form>
       </main>
@@ -112,5 +112,4 @@ const Login = () => {
 
   return content;
 };
-
 export default Login;
