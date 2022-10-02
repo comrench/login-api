@@ -10,10 +10,12 @@ const initialState = caloriesAdapter.getInitialState();
 export const caloriesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCalories: builder.query({
-      query: () => '/calorie',
-      validateStatus: (response, result) => {
-        return response.status === 200 && !result.isError;
-      },
+      query: () => ({
+        url: '/calorie',
+        validateStatus: (response, result) => {
+          return response.status === 200 && !result.isError;
+        },
+      }),
       transformResponse: (responseData) => {
         const loadedCalories = responseData.map((calorie) => {
           calorie.id = calorie._id;

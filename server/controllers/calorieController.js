@@ -38,7 +38,10 @@ const createNewCalorie = asyncHandler(async (req, res) => {
 
   // Check for duplicates
   // TODO: Change duplicate to unique identity i.e. date + name or something
-  const duplicate = await Calorie.findOne({ name }).lean().exec();
+  const duplicate = await Calorie.findOne({ name })
+    .collation({ locale: 'en', strength: 2 })
+    .lean()
+    .exec();
 
   if (duplicate) {
     return res.status(409).json({ message: 'Duplicate calorie name' });
@@ -75,7 +78,10 @@ const updateCalorie = asyncHandler(async (req, res) => {
 
   // Check for duplicate
   // TODO: Change duplicate to unique identity i.e. date + name or something
-  const duplicate = await Calorie.findOne({ name }).lean().exec();
+  const duplicate = await Calorie.findOne({ name })
+    .collation({ locale: 'en', strength: 2 })
+    .lean()
+    .exec();
 
   // Allow updates to the original calorie
   if (duplicate && duplicate?._id.toString() !== id) {

@@ -9,15 +9,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  roles: [
-    {
-      type: String,
-      default: 'Employee',
-    },
-  ],
+  roles: {
+    type: [String],
+    default: ['Client'],
+  },
   active: {
     type: Boolean,
     default: true,
+  },
+  limit: {
+    type: Number,
+    default: 2100,
   },
 });
 
