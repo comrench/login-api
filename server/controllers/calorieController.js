@@ -29,10 +29,17 @@ const getAllCalorie = asyncHandler(async (req, res) => {
 // @route POST /calorie
 // @access Private
 const createNewCalorie = asyncHandler(async (req, res) => {
-  const { user, date, name, quantity } = req.body;
+  const { user, date, time, name, quantity } = req.body;
 
   // Confirm data
-  if (!user || !date || !name || !quantity || typeof quantity !== 'number') {
+  if (
+    !user ||
+    !date ||
+    !time ||
+    !name ||
+    !quantity ||
+    typeof quantity !== 'number'
+  ) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -48,7 +55,7 @@ const createNewCalorie = asyncHandler(async (req, res) => {
   }
 
   // Create and store new calorie
-  const calorie = await Calorie.create({ user, date, name, quantity });
+  const calorie = await Calorie.create({ user, date, time, name, quantity });
 
   if (calorie) {
     // created
@@ -62,10 +69,17 @@ const createNewCalorie = asyncHandler(async (req, res) => {
 // @route PATCH /calorie
 // @access Private
 const updateCalorie = asyncHandler(async (req, res) => {
-  const { id, user, date, name, quantity } = req.body;
+  const { id, user, date, time, name, quantity } = req.body;
 
   // confirm data
-  if (!user || !date || !name || !quantity || typeof quantity !== 'number') {
+  if (
+    !user ||
+    !date ||
+    !time ||
+    !name ||
+    !quantity ||
+    typeof quantity !== 'number'
+  ) {
     return res.status(400).json({ message: 'All fields are requiredb!' });
   }
 
@@ -90,6 +104,7 @@ const updateCalorie = asyncHandler(async (req, res) => {
 
   calorie.user = user;
   calorie.date = date;
+  calorie.time = time;
   calorie.name = name;
   calorie.quantity = quantity;
 

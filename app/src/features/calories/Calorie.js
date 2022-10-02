@@ -25,10 +25,10 @@ const Calorie = ({ calorieId }) => {
     return (
       <tr className='table__row'>
         <td className='table__cell calorie__username'>{calorie.username}</td>
-        <td className='table__cell calorie__created'>{created}</td>
-        <td className='table__cell calorie__updated'>{updated}</td>
+        <td className='table__cell calorie__created'>{calorie.name}</td>
+        <td className='table__cell calorie__updated'>{calorie.date}</td>
 
-        <td className='table__cell calorie__title'>{calorie.date}</td>
+        <td className='table__cell calorie__title'>{calorie.time}</td>
         <td className='table__cell calorie__username'>{calorie.name}</td>
         {/* <td className='table__cell calorie__username'>{calorie.quantity}</td> */}
         <td className='table__cell'>

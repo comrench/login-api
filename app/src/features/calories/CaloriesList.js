@@ -51,16 +51,16 @@ const CaloriesList = () => {
               Username
             </th>
             <th scope='col' className='table__th calorie__created'>
-              Created
+              Food
             </th>
             <th scope='col' className='table__th calorie__updated'>
-              Updated
-            </th>
-            <th scope='col' className='table__th calorie__title'>
               Date
             </th>
+            <th scope='col' className='table__th calorie__title'>
+              Time
+            </th>
             <th scope='col' className='table__th calorie__username'>
-              Food
+              Limit
             </th>
             {/* <th scope='col' className='table__th calorie__username'>
               Quantity

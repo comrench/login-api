@@ -13,12 +13,17 @@ const NewCalorieForm = ({ users }) => {
 
   const navigate = useNavigate();
 
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [time, setTime] = useState(
+    new Date().toISOString().split('T')[1].split('.')[0]
+  );
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [userId, setUserId] = useState(
     users.filter((user) => user.username === username)[0].id
   );
+
+  console.log(time);
 
   useEffect(() => {
     if (isSuccess) {
@@ -31,6 +36,7 @@ const NewCalorieForm = ({ users }) => {
   }, [isSuccess, navigate]);
 
   const onDateChanged = (e) => setDate(e.target.value);
+  const onTimeChanged = (e) => setTime(e.target.value);
   const onNameChanged = (e) => setName(e.target.value);
   const onQuantityChanged = (e) => setQuantity(e.target.value);
   const onUserIdChanged = (e) => setUserId(e.target.value);
@@ -43,6 +49,7 @@ const NewCalorieForm = ({ users }) => {
       await addNewCalorie({
         user: userId,
         date,
+        time,
         name,
         quantity: parseFloat(quantity),
       });
@@ -59,6 +66,7 @@ const NewCalorieForm = ({ users }) => {
 
   const errClass = isError ? 'errmsg' : 'offscreen';
   const validDateClass = !date ? 'form__input--incomplete' : '';
+  const validTimeClass = !date ? 'form__input--incomplete' : '';
   const validNameClass = !name ? 'form__input--incomplete' : '';
   const validQuantityClass = !quantity ? 'form__input--incomplete' : '';
 
@@ -83,10 +91,24 @@ const NewCalorieForm = ({ users }) => {
           className={`form__input ${validDateClass}`}
           id='calorie-date'
           name='date'
-          type='text'
+          type='date'
+          max={new Date().toISOString().split('T')[0]}
           autoComplete='off'
           value={date}
           onChange={onDateChanged}
+        />
+
+        <label className='form__label' htmlFor='calorie-date'>
+          Time:
+        </label>
+        <input
+          className={`form__input ${validTimeClass}`}
+          type='time'
+          id='time'
+          name='time'
+          value={time}
+          onChange={onTimeChanged}
+          required
         />
 
         <label className='form__label' htmlFor='calorie-name'>
