@@ -4,10 +4,16 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { selectCalorieById } from './caloriesApiSlice';
+import { selectUserById } from '../users/usersApiSlice';
 
-const Calorie = ({ calorieId }) => {
+const Calorie = ({ calorieId, dateQtyMap }) => {
   const calorie = useSelector((state) => selectCalorieById(state, calorieId));
+  const user = useSelector((state) => selectUserById(state, calorie?.user));
+  const limit = user?.limit;
+
   const navigate = useNavigate();
+
+  const limitExceeded = dateQtyMap.get(calorie?.date) > limit;
 
   if (calorie) {
     const created = new Date(calorie.createdAt).toLocaleString('en-US', {
@@ -26,10 +32,14 @@ const Calorie = ({ calorieId }) => {
       <tr className='table__row'>
         <td className='table__cell calorie__username'>{calorie.username}</td>
         <td className='table__cell calorie__created'>{calorie.name}</td>
-        <td className='table__cell calorie__updated'>{calorie.date}</td>
+        <td className='table__cell calorie__updated'>
+          {calorie.date} {calorie.time}
+        </td>
 
-        <td className='table__cell calorie__title'>{calorie.time}</td>
-        <td className='table__cell calorie__username'>{calorie.name}</td>
+        <td className='table__cell calorie__title'>{calorie.quantity}</td>
+        <td className='table__cell calorie__username'>
+          {limitExceeded ? 'Exceeded' : 'In limit'}
+        </td>
         {/* <td className='table__cell calorie__username'>{calorie.quantity}</td> */}
         <td className='table__cell'>
           <button className='icon-button table__button' onClick={handleEdit}>

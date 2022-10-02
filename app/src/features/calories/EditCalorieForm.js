@@ -53,7 +53,7 @@ const EditCalorieForm = ({ calorie, users }) => {
         date,
         time,
         name,
-        quantity,
+        quantity: parseFloat(quantity),
       });
     }
   };

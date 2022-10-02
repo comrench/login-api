@@ -71,6 +71,16 @@ const createNewCalorie = asyncHandler(async (req, res) => {
 const updateCalorie = asyncHandler(async (req, res) => {
   const { id, user, date, time, name, quantity } = req.body;
 
+  console.log(
+    id,
+    user,
+    date,
+    time,
+    name,
+    quantity,
+    typeof quantity !== 'number'
+  );
+
   // confirm data
   if (
     !user ||
