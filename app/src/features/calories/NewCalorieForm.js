@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAddNewCalorieMutation } from './caloriesApiSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
+import useAuth from '../../hooks/useAuth';
 
 const NewCalorieForm = ({ users }) => {
+  const { username, isAdmin } = useAuth();
+
   const [addNewCalorie, { isLoading, isSuccess, isError, error }] =
     useAddNewCalorieMutation();
 
@@ -13,7 +16,9 @@ const NewCalorieForm = ({ users }) => {
   const [date, setDate] = useState('');
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState(0);
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState(
+    users.filter((user) => user.username === username)[0].id
+  );
 
   useEffect(() => {
     if (isSuccess) {
@@ -110,21 +115,25 @@ const NewCalorieForm = ({ users }) => {
           onChange={onQuantityChanged}
         />
 
-        <label
-          className='form__label form__checkbox-container'
-          htmlFor='calorie-username'
-        >
-          ASSIGNED TO:
-        </label>
-        <select
-          id='calorie-username'
-          name='username'
-          className='form__select'
-          value={userId}
-          onChange={onUserIdChanged}
-        >
-          {options}
-        </select>
+        {isAdmin && (
+          <>
+            <label
+              className='form__label form__checkbox-container'
+              htmlFor='calorie-username'
+            >
+              ASSIGNED TO:
+            </label>
+            <select
+              id='calorie-username'
+              name='username'
+              className='form__select'
+              value={userId}
+              onChange={onUserIdChanged}
+            >
+              {options}
+            </select>
+          </>
+        )}
       </form>
     </>
   );
