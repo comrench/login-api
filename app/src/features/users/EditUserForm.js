@@ -9,7 +9,7 @@ const USER_REGEX = /^[A-z]{3,20}$/;
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 
 const EditUserForm = ({ user }) => {
-  console.log(user);
+  // console.log(user);
   const [updateUser, { isLoading, isSuccess, isError, error }] =
     useUpdateUserMutation();
 
@@ -36,7 +36,7 @@ const EditUserForm = ({ user }) => {
   }, [password]);
 
   useEffect(() => {
-    console.log(isSuccess);
+    // console.log(isSuccess);
     if (isSuccess || isDelSuccess) {
       setUsername('');
       setPassword('');
@@ -80,11 +80,9 @@ const EditUserForm = ({ user }) => {
 
   let canSave;
   if (password) {
-    console.log('In password');
     canSave =
       [roles.length, validUsername, validPassword].every(Boolean) && !isLoading;
   } else {
-    console.log(roles.length, validUsername);
     canSave = [roles.length, validUsername].every(Boolean) && !isLoading;
   }
 

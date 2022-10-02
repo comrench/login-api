@@ -27,7 +27,6 @@ const CaloriesList = () => {
 
   if (isSuccess) {
     const { ids, entities } = calories;
-    console.log(ids);
 
     let filteredIds;
     if (isManager || isAdmin) {

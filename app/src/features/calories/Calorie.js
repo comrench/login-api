@@ -7,7 +7,6 @@ import { selectCalorieById } from './caloriesApiSlice';
 
 const Calorie = ({ calorieId }) => {
   const calorie = useSelector((state) => selectCalorieById(state, calorieId));
-  console.log(calorie);
   const navigate = useNavigate();
 
   if (calorie) {
