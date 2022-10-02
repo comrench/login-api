@@ -28,6 +28,7 @@ const NewCalorieForm = ({ users }) => {
   useEffect(() => {
     if (isSuccess) {
       setDate('');
+      setTime('');
       setName('');
       setQuantity('');
       setUserId('');

@@ -22,6 +22,7 @@ const EditCalorieForm = ({ calorie, users }) => {
   const navigate = useNavigate();
 
   const [date, setDate] = useState(calorie.date);
+  const [time, setTime] = useState(calorie.time);
   const [name, setName] = useState(calorie.name);
   const [quantity, setQuantity] = useState(calorie.quantity);
   const [userId, setUserId] = useState(calorie.user);
@@ -37,6 +38,7 @@ const EditCalorieForm = ({ calorie, users }) => {
   }, [isSuccess, isDelSuccess, navigate]);
 
   const onDateChanged = (e) => setDate(e.target.value);
+  const onTimeChanged = (e) => setTime(e.target.value);
   const onNameChanged = (e) => setName(e.target.value);
   const onQuantityChanged = (e) => setQuantity(e.target.value);
   const onUserIdChanged = (e) => setUserId(e.target.value);
@@ -49,6 +51,7 @@ const EditCalorieForm = ({ calorie, users }) => {
         id: calorie.id,
         user: userId,
         date,
+        time,
         name,
         quantity,
       });
@@ -86,6 +89,7 @@ const EditCalorieForm = ({ calorie, users }) => {
 
   const errClass = isError || isDelError ? 'errmsg' : 'offscreen';
   const validDateClass = !date ? 'form__input--incomplete' : '';
+  const validTimeClass = !date ? 'form__input--incomplete' : '';
   const validNameClass = !name ? 'form__input--incomplete' : '';
   const validQuantityClass = !quantity ? 'form__input--incomplete' : '';
 
@@ -131,10 +135,24 @@ const EditCalorieForm = ({ calorie, users }) => {
           className={`form__input ${validDateClass}`}
           id='calorie-date'
           name='date'
-          type='text'
+          type='date'
+          max={new Date().toISOString().split('T')[0]}
           autoComplete='off'
           value={date}
           onChange={onDateChanged}
+        />
+
+        <label className='form__label' htmlFor='calorie-date'>
+          Time:
+        </label>
+        <input
+          className={`form__input ${validTimeClass}`}
+          type='time'
+          id='time'
+          name='time'
+          value={time}
+          onChange={onTimeChanged}
+          required
         />
 
         <label className='form__label' htmlFor='calorie-name'>
@@ -164,23 +182,25 @@ const EditCalorieForm = ({ calorie, users }) => {
         />
 
         <div className='form__row'>
-          <div className='form__divider'>
-            <label
-              className='form__label form__checkbox-container'
-              htmlFor='calorie-username'
-            >
-              ASSIGNED TO:
-            </label>
-            <select
-              id='calorie-username'
-              name='username'
-              className='form__select'
-              value={userId}
-              onChange={onUserIdChanged}
-            >
-              {options}
-            </select>
-          </div>
+          {isAdmin && (
+            <div className='form__divider'>
+              <label
+                className='form__label form__checkbox-container'
+                htmlFor='calorie-username'
+              >
+                ASSIGNED TO:
+              </label>
+              <select
+                id='calorie-username'
+                name='username'
+                className='form__select'
+                value={userId}
+                onChange={onUserIdChanged}
+              >
+                {options}
+              </select>
+            </div>
+          )}
           <div className='form__divider'>
             <p className='form__created'>
               Created:
