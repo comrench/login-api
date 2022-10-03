@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectCalorieById } from './caloriesApiSlice';
 import { selectUserById } from '../users/usersApiSlice';
 
-const Calorie = ({ calorieId, dateQtyMap }) => {
+const Calorie = ({ calorieId, dateQtyMap, isAdmin }) => {
   const calorie = useSelector((state) => selectCalorieById(state, calorieId));
   const user = useSelector((state) => selectUserById(state, calorie?.user));
   const limit = user?.limit;
@@ -38,7 +38,7 @@ const Calorie = ({ calorieId, dateQtyMap }) => {
 
         <td className='table__cell calorie__title'>{calorie.quantity}</td>
         <td className='table__cell calorie__username'>
-          {limitExceeded ? 'Exceeded' : 'In limit'}
+          {isAdmin ? 'NA' : limitExceeded ? 'Exceeded' : 'In limit'}
         </td>
         {/* <td className='table__cell calorie__username'>{calorie.quantity}</td> */}
         <td className='table__cell'>

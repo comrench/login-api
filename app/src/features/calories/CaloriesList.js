@@ -63,6 +63,7 @@ const CaloriesList = () => {
           key={calorieId}
           calorieId={calorieId}
           dateQtyMap={dateQtyMap}
+          isAdmin={isAdmin}
         />
       ));
 
