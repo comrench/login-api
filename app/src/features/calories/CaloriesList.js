@@ -66,13 +66,14 @@ const CaloriesList = () => {
           isAdmin={isAdmin}
         />
       ));
+    const limit_or_username = isAdmin ? 'Username' : 'Limit';
 
     content = (
       <table className='table table--calories'>
         <thead className='table__thead'>
           <tr>
             <th scope='col' className='table__th calorie__status'>
-              Username
+              Meal
             </th>
             <th scope='col' className='table__th calorie__created'>
               Food
@@ -84,7 +85,7 @@ const CaloriesList = () => {
               Quantity
             </th>
             <th scope='col' className='table__th calorie__username'>
-              Limit
+              {limit_or_username}
             </th>
             {/* <th scope='col' className='table__th calorie__username'>
               Quantity

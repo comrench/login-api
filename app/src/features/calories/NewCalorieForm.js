@@ -13,6 +13,12 @@ const NewCalorieForm = ({ users }) => {
 
   const navigate = useNavigate();
 
+  const meals = [
+    { key: 'breakfast', value: 'Breakfast' },
+    { key: 'bunch', value: 'Lunch' },
+    { key: 'dinner', value: 'Dinner' },
+  ];
+
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [time, setTime] = useState(
     new Date().toISOString().split('T')[1].split('.')[0]
@@ -22,8 +28,7 @@ const NewCalorieForm = ({ users }) => {
   const [userId, setUserId] = useState(
     users.filter((user) => user.username === username)[0].id
   );
-
-  console.log(time);
+  const [meal, setMeal] = useState('');
 
   useEffect(() => {
     if (isSuccess) {
@@ -32,6 +37,7 @@ const NewCalorieForm = ({ users }) => {
       setName('');
       setQuantity('');
       setUserId('');
+      setMeal('');
       navigate('/dash/calories');
     }
   }, [isSuccess, navigate]);
@@ -41,8 +47,10 @@ const NewCalorieForm = ({ users }) => {
   const onNameChanged = (e) => setName(e.target.value);
   const onQuantityChanged = (e) => setQuantity(e.target.value);
   const onUserIdChanged = (e) => setUserId(e.target.value);
+  const onMealChanged = (e) => setMeal(e.target.value);
 
-  const canSave = [date, name, quantity, userId].every(Boolean) && !isLoading;
+  const canSave =
+    [date, name, quantity, userId, meal].every(Boolean) && !isLoading;
 
   const onSaveCalorieClicked = async (e) => {
     e.preventDefault();
@@ -52,6 +60,7 @@ const NewCalorieForm = ({ users }) => {
         date,
         time,
         name,
+        meal,
         quantity: parseFloat(quantity),
       });
     }
@@ -65,9 +74,18 @@ const NewCalorieForm = ({ users }) => {
     );
   });
 
+  const mealOptions = meals.map((meal) => {
+    return (
+      <option key={meal.key} value={meal.value}>
+        {meal.value}
+      </option>
+    );
+  });
+
   const errClass = isError ? 'errmsg' : 'offscreen';
   const validDateClass = !date ? 'form__input--incomplete' : '';
-  const validTimeClass = !date ? 'form__input--incomplete' : '';
+  const validMealClass = !meal ? 'form__input--incomplete' : '';
+  const validTimeClass = !time ? 'form__input--incomplete' : '';
   const validNameClass = !name ? 'form__input--incomplete' : '';
   const validQuantityClass = !quantity ? 'form__input--incomplete' : '';
 
@@ -84,6 +102,20 @@ const NewCalorieForm = ({ users }) => {
             </button>
           </div>
         </div>
+
+        <label className='form__label' htmlFor='meal'>
+          Meal Type:
+        </label>
+        <select
+          id='meal'
+          name='meal'
+          className={`form__select ${validMealClass}`}
+          // size='3'
+          value={meal}
+          onChange={onMealChanged}
+        >
+          {mealOptions}
+        </select>
 
         <label className='form__label' htmlFor='calorie-date'>
           Date:

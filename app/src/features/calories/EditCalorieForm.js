@@ -20,6 +20,7 @@ const EditCalorieForm = ({ calorie, users }) => {
   ] = useDeleteCalorieMutation();
 
   const navigate = useNavigate();
+  console.log(calorie);
 
   const [date, setDate] = useState(calorie.date);
   const [time, setTime] = useState(calorie.time);

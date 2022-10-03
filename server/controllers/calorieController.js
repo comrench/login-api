@@ -29,7 +29,7 @@ const getAllCalorie = asyncHandler(async (req, res) => {
 // @route POST /calorie
 // @access Private
 const createNewCalorie = asyncHandler(async (req, res) => {
-  const { user, date, time, name, quantity } = req.body;
+  const { user, date, time, name, meal, quantity } = req.body;
 
   // Confirm data
   if (
@@ -37,6 +37,7 @@ const createNewCalorie = asyncHandler(async (req, res) => {
     !date ||
     !time ||
     !name ||
+    !meal ||
     !quantity ||
     typeof quantity !== 'number'
   ) {
@@ -55,7 +56,14 @@ const createNewCalorie = asyncHandler(async (req, res) => {
   }
 
   // Create and store new calorie
-  const calorie = await Calorie.create({ user, date, time, name, quantity });
+  const calorie = await Calorie.create({
+    user,
+    date,
+    time,
+    name,
+    meal,
+    quantity,
+  });
 
   if (calorie) {
     // created
@@ -69,17 +77,7 @@ const createNewCalorie = asyncHandler(async (req, res) => {
 // @route PATCH /calorie
 // @access Private
 const updateCalorie = asyncHandler(async (req, res) => {
-  const { id, user, date, time, name, quantity } = req.body;
-
-  console.log(
-    id,
-    user,
-    date,
-    time,
-    name,
-    quantity,
-    typeof quantity !== 'number'
-  );
+  const { id, user, date, time, name, meal, quantity } = req.body;
 
   // confirm data
   if (
@@ -87,6 +85,7 @@ const updateCalorie = asyncHandler(async (req, res) => {
     !date ||
     !time ||
     !name ||
+    !meal ||
     !quantity ||
     typeof quantity !== 'number'
   ) {
@@ -116,6 +115,7 @@ const updateCalorie = asyncHandler(async (req, res) => {
   calorie.date = date;
   calorie.time = time;
   calorie.name = name;
+  calorie.meal = meal;
   calorie.quantity = quantity;
 
   const updatedCalorie = await calorie.save();
