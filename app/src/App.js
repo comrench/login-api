@@ -14,6 +14,7 @@ import Prefetch from './features/auth/Prefetch';
 import PersistLogin from './features/auth/PersistLogin';
 import RequireAuth from './features/auth/RequireAuth';
 import { ROLES } from './config/roles';
+import UserReports from './features/users/UserReports';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
                     <Route index element={<UsersList />} />
                     <Route path=':id' element={<EditUser />} />
                     <Route path='new' element={<NewUserForm />} />
+                    <Route path='reports' element={<UserReports />} />
                   </Route>
                 </Route>
 

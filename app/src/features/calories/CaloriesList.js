@@ -1,8 +1,6 @@
 import { useGetCaloriesQuery } from './caloriesApiSlice';
 import Calorie from './Calorie';
 import useAuth from '../../hooks/useAuth';
-import { selectUserById } from '../users/usersApiSlice';
-import { useSelector } from 'react-redux';
 
 const CaloriesList = () => {
   const { username, isManager, isAdmin } = useAuth();
@@ -51,7 +49,7 @@ const CaloriesList = () => {
         return res;
       }, {});
 
-      console.log(result);
+      // console.log(result);
 
       result.forEach((item) => {
         dateQtyMap.set(item.date, item.quantity);
