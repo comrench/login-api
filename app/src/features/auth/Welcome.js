@@ -20,6 +20,11 @@ const Welcome = () => {
       <p>
         <Link to='/dash/calories/new'>Add New Calorie</Link>
       </p>
+
+      <p>
+        <Link to='/dash/invite'>Invite a friend</Link>
+      </p>
+
       {(isManager || isAdmin) && (
         <p>
           <Link to='/dash/users'>View User Settings</Link>

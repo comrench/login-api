@@ -15,6 +15,7 @@ import PersistLogin from './features/auth/PersistLogin';
 import RequireAuth from './features/auth/RequireAuth';
 import { ROLES } from './config/roles';
 import UserReports from './features/users/UserReports';
+import InviteFriend from './features/users/InviteFriend';
 
 function App() {
   return (
@@ -50,6 +51,10 @@ function App() {
                   <Route index element={<CaloriesList />} />
                   <Route path=':id' element={<EditCalorie />} />
                   <Route path='new' element={<NewCalorie />} />
+                </Route>
+
+                <Route path='invite'>
+                  <Route index element={<InviteFriend />} />
                 </Route>
               </Route>
             </Route>
