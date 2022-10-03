@@ -2,6 +2,12 @@ const User = require('../models/User');
 const Calorie = require('../models/Calorie');
 const asyncHandler = require('express-async-handler');
 
+const MEALS = {
+  Breakfast: 2,
+  Lunch: 4,
+  Dinner: 5,
+};
+
 // @desc Get all calories
 // @route Get /calorie
 // @access Private
@@ -53,6 +59,20 @@ const createNewCalorie = asyncHandler(async (req, res) => {
 
   if (duplicate) {
     return res.status(409).json({ message: 'Duplicate calorie name' });
+  }
+
+  const calories = await Calorie.find().select().lean();
+  // console.log(calories);
+  let c = 0;
+  // for (let cal in calories) {
+  calories.forEach((cal) => {
+    console.log(user, cal.user);
+    if (meal === cal.meal && user == cal.user && date === cal.date) {
+      c += 1;
+    }
+  });
+  if (c >= MEALS[meal]) {
+    return res.status(409).json({ message: `${meal} limit exceeded` });
   }
 
   // Create and store new calorie
